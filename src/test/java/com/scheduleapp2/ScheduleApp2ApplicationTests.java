@@ -1,4 +1,4 @@
-package com.example.scheduleapp2;
+package com.scheduleapp2;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
