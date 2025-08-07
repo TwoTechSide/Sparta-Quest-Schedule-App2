@@ -1,5 +1,6 @@
 package com.scheduleapp2.entity;
 
+import com.scheduleapp2.dto.user.UserRequestDto;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,4 +19,9 @@ public class User extends BaseEntity {
 
     private String name;
     private String email;
+
+    public void updateNameAndEmail(UserRequestDto userRequestDto) {
+        this.name = userRequestDto.getName();
+        this.email = userRequestDto.getEmail();
+    }
 }
