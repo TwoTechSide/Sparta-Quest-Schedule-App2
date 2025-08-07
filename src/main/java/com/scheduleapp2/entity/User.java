@@ -1,11 +1,10 @@
 package com.scheduleapp2.entity;
 
 import com.scheduleapp2.dto.user.UserRequestDto;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -15,10 +14,14 @@ import lombok.*;
 public class User extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Long id;
 
     private String name;
     private String email;
+
+    @OneToMany(mappedBy = "user")
+    private List<Schedule> schedules;
 
     public void updateNameAndEmail(UserRequestDto userRequestDto) {
         this.name = userRequestDto.getName();
