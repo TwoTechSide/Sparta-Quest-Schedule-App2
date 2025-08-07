@@ -4,10 +4,12 @@ import com.scheduleapp2.dto.schedule.ScheduleRequestDto;
 import com.scheduleapp2.dto.schedule.ScheduleResponseDto;
 import com.scheduleapp2.dto.schedule.ScheduleUpdateRequestDto;
 import com.scheduleapp2.entity.Schedule;
+import com.scheduleapp2.entity.User;
 import com.scheduleapp2.exception.CustomException;
 import com.scheduleapp2.exception.ErrorCode;
 import com.scheduleapp2.mapper.ScheduleMapper;
 import com.scheduleapp2.repository.ScheduleRepository;
+import com.scheduleapp2.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,12 +22,20 @@ import java.util.stream.Collectors;
 public class ScheduleService  {
 
     private final ScheduleRepository scheduleRepository;
+    private final UserRepository userRepository;
+
     private final ScheduleMapper scheduleMapper;
 
     @Transactional
-    public ScheduleResponseDto createSchedule(ScheduleRequestDto scheduleRequestDto) {
-        Schedule schedule = scheduleRepository.save(scheduleMapper.toEntity(scheduleRequestDto));
-        return scheduleMapper.toResponseDto(schedule);
+    public ScheduleResponseDto createSchedule(ScheduleRequestDto scheduleRequestDto, Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
+        Schedule scheduleWithUser = scheduleMapper.toEntity(scheduleRequestDto);
+        scheduleWithUser.assignUser(user);
+
+        Schedule savedSchedule = scheduleRepository.save(scheduleWithUser);
+        return scheduleMapper.toResponseDto(savedSchedule);
     }
 
     @Transactional(readOnly = true)
