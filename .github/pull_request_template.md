@@ -1,11 +1,3 @@
----
-name: "Pull Request Template"
-title: "[Lv 1.] 일정관리 기본 기능 구현"
-labels: "과제"
-assignees: TwoTechSide
-
----
-
 ## 💻 구현 내용
 <!---- 변경 사항 및 관련 이슈 -->
 
