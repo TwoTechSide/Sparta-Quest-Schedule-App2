@@ -8,6 +8,6 @@ import lombok.Getter;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class ScheduleUpdateRequestDto {
 
-    private String title;
-    private String content;
+    private final String title;
+    private final String content;
 }

@@ -5,17 +5,24 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 @Getter
-@Builder
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class ScheduleResponseDto {
 
-    private Long id;
+    private final Long id;
 
-    private String writer;
-    private String title;
-    private String content;
+    private final String writer;
+    private final String title;
+    private final String content;
 
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private final LocalDateTime createdAt;
+    private final LocalDateTime updatedAt;
+
+    @Builder
+    public ScheduleResponseDto(Long id, String writer, String title, String content, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        this.id = id;
+        this.writer = writer;
+        this.title = title;
+        this.content = content;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
 }

@@ -6,7 +6,7 @@ import lombok.*;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class ScheduleRequestDto {
 
-    private String writer;
-    private String title;
-    private String content;
+    private final String writer;
+    private final String title;
+    private final String content;
 }
