@@ -3,7 +3,7 @@ package com.scheduleapp2.dto;
 import lombok.*;
 
 @Getter
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class ScheduleRequestDto {
 
     private String writer;
