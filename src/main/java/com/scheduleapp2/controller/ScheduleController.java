@@ -1,8 +1,8 @@
 package com.scheduleapp2.controller;
 
-import com.scheduleapp2.dto.ScheduleRequestDto;
-import com.scheduleapp2.dto.ScheduleResponseDto;
-import com.scheduleapp2.dto.ScheduleUpdateRequestDto;
+import com.scheduleapp2.dto.schedule.ScheduleRequestDto;
+import com.scheduleapp2.dto.schedule.ScheduleResponseDto;
+import com.scheduleapp2.dto.schedule.ScheduleUpdateRequestDto;
 import com.scheduleapp2.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

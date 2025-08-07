@@ -1,4 +1,4 @@
-package com.scheduleapp2.dto;
+package com.scheduleapp2.dto.schedule;
 
 import lombok.*;
 

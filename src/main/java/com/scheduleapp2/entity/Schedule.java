@@ -1,6 +1,6 @@
 package com.scheduleapp2.entity;
 
-import com.scheduleapp2.dto.ScheduleUpdateRequestDto;
+import com.scheduleapp2.dto.schedule.ScheduleUpdateRequestDto;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
