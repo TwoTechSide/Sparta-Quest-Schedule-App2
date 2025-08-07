@@ -1,7 +1,7 @@
 package com.scheduleapp2.mapper;
 
-import com.scheduleapp2.dto.ScheduleRequestDto;
-import com.scheduleapp2.dto.ScheduleResponseDto;
+import com.scheduleapp2.dto.schedule.ScheduleRequestDto;
+import com.scheduleapp2.dto.schedule.ScheduleResponseDto;
 import com.scheduleapp2.entity.Schedule;
 import org.mapstruct.Mapper;
 

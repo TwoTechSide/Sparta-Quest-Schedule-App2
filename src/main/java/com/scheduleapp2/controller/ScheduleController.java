@@ -1,8 +1,8 @@
 package com.scheduleapp2.controller;
 
-import com.scheduleapp2.dto.ScheduleRequestDto;
-import com.scheduleapp2.dto.ScheduleResponseDto;
-import com.scheduleapp2.dto.ScheduleUpdateRequestDto;
+import com.scheduleapp2.dto.schedule.ScheduleRequestDto;
+import com.scheduleapp2.dto.schedule.ScheduleResponseDto;
+import com.scheduleapp2.dto.schedule.ScheduleUpdateRequestDto;
 import com.scheduleapp2.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,9 +19,11 @@ public class ScheduleController {
     private final ScheduleService scheduleService;
 
     // 일정 생성
-    @PostMapping
-    public ResponseEntity<ScheduleResponseDto> createSchedule(@RequestBody ScheduleRequestDto scheduleRequestDto) {
-        ScheduleResponseDto createdScheduleDto = scheduleService.createSchedule(scheduleRequestDto);
+    @PostMapping("/users/{userId}")
+    public ResponseEntity<ScheduleResponseDto> createSchedule(
+            @RequestBody ScheduleRequestDto scheduleRequestDto,
+            @PathVariable Long userId) {
+        ScheduleResponseDto createdScheduleDto = scheduleService.createSchedule(scheduleRequestDto, userId);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdScheduleDto);
     }
 
