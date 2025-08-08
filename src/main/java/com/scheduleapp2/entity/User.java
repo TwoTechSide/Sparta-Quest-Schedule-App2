@@ -19,12 +19,13 @@ public class User extends BaseEntity {
 
     private String name;
     private String email;
+    private String password;
 
     @OneToMany(mappedBy = "user")
     private List<Schedule> schedules;
 
     public void updateNameAndEmail(UserRequestDto userRequestDto) {
-        this.name = userRequestDto.getName();
-        this.email = userRequestDto.getEmail();
+        this.name = userRequestDto.name();
+        this.email = userRequestDto.email();
     }
 }
