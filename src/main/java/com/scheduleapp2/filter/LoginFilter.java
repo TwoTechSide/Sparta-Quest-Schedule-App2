@@ -9,7 +9,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.util.PatternMatchUtils;
 
 import java.io.IOException;
@@ -39,19 +38,19 @@ public class LoginFilter implements Filter {
                 final ObjectMapper objectMapper = new ObjectMapper();
                 objectMapper.registerModule(new JavaTimeModule());
 
-                // 3. ErrorResponse ( USER_NOT_FOUND, UNAUTHORIZED ) 를 json 으로 변환한 뒤, response에 담아서 반환
+                // 3. ErrorResponse ( USER_NOT_LOGIN, UNAUTHORIZED ) 를 json 으로 변환한 뒤, response에 담아서 반환
                 final ErrorCode errorCode = ErrorCode.USER_NOT_LOGIN;
-                final HttpStatus errorStatus = HttpStatus.UNAUTHORIZED;
 
                 ErrorResponse error = ErrorResponse.of(
-                        errorStatus,
+                        errorCode.getHttpStatus(),
                         errorCode.getCode(),
                         errorCode.getMessage(),
                         request.getRequestURI());
 
-                response.setStatus(errorStatus.value());
+                response.setStatus(errorCode.getHttpStatus().value());
                 response.setContentType("application/json;charset=UTF-8");
                 response.getWriter().write(objectMapper.writeValueAsString(error));
+                return;
             }
         }
 
