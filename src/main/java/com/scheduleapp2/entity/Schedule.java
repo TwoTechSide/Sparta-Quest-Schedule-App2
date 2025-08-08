@@ -28,7 +28,7 @@ public class Schedule extends BaseEntity {
     }
 
     public void updateTitleAndContent(ScheduleUpdateRequestDto scheduleUpdateRequestDto) {
-        this.title = scheduleUpdateRequestDto.getTitle();
-        this.content = scheduleUpdateRequestDto.getContent();
+        this.title = scheduleUpdateRequestDto.title();
+        this.content = scheduleUpdateRequestDto.content();
     }
 }
