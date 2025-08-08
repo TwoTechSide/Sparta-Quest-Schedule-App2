@@ -18,12 +18,12 @@ import java.io.IOException;
 public class LoginFilter implements Filter {
 
     private static final String[] WHITE_LIST = {
-            "/", "/users/signup", "/users/login",
+            "/", "/users/signup", "/users/login", "/users/logout",
             "/v3/api-docs", "/v3/api-docs/*",
             "/swagger-ui", "/swagger-ui/*"};
 
     @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException {
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
 
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
@@ -40,7 +40,7 @@ public class LoginFilter implements Filter {
                 objectMapper.registerModule(new JavaTimeModule());
 
                 // 3. ErrorResponse ( USER_NOT_FOUND, UNAUTHORIZED ) 를 json 으로 변환한 뒤, response에 담아서 반환
-                final ErrorCode errorCode = ErrorCode.USER_NOT_FOUND;
+                final ErrorCode errorCode = ErrorCode.USER_NOT_LOGIN;
                 final HttpStatus errorStatus = HttpStatus.UNAUTHORIZED;
 
                 ErrorResponse error = ErrorResponse.of(
@@ -54,6 +54,9 @@ public class LoginFilter implements Filter {
                 response.getWriter().write(objectMapper.writeValueAsString(error));
             }
         }
+
+        // 4. 다음 필터가 없으면 Servlet -> Controller 호출
+        filterChain.doFilter(request, response);
     }
 
     private boolean isWhiteList(String requestURI) {

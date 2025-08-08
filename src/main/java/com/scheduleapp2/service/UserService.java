@@ -1,5 +1,6 @@
 package com.scheduleapp2.service;
 
+import com.scheduleapp2.dto.user.UserLoginRequestDto;
 import com.scheduleapp2.dto.user.UserRequestDto;
 import com.scheduleapp2.dto.user.UserResponseDto;
 import com.scheduleapp2.entity.User;
@@ -10,6 +11,8 @@ import com.scheduleapp2.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -42,6 +45,16 @@ public class UserService {
 
     @Transactional
     public void deleteUserById(Long userId) { userRepository.deleteById(userId); }
+
+    // (email, password)로 찾은 user id 반환, 실패시 USER_NOT_FOUND 예외 처리
+    @Transactional(readOnly = true)
+    public Long login(UserLoginRequestDto userLoginRequestDto) {
+        String loginEmail = userLoginRequestDto.email();
+        String loginPassword = userLoginRequestDto.password();
+
+        Optional<User> loginUser = userRepository.findByEmailAndPassword(loginEmail, loginPassword);
+        return loginUser.map(User::getId).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+    }
 
     // findById로 찾은 entity 반환, 조회 실패시 예외 처리
     public User findUserByIdOrElseThrow(Long userId) {
