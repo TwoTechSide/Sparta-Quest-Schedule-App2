@@ -1,8 +1,11 @@
 package com.scheduleapp2.controller;
 
+import com.scheduleapp2.dto.user.UserLoginRequestDto;
 import com.scheduleapp2.dto.user.UserRequestDto;
 import com.scheduleapp2.dto.user.UserResponseDto;
 import com.scheduleapp2.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,11 +18,32 @@ public class UserController {
 
     private final UserService userService;
 
-    // 유저 생성
-    @PostMapping
-    public ResponseEntity<UserResponseDto> createUser(@RequestBody UserRequestDto userRequestDto) {
+    // 유저 회원가입
+    @PostMapping("/signup")
+    public ResponseEntity<UserResponseDto> signupUser(@RequestBody UserRequestDto userRequestDto) {
         UserResponseDto createdUserDto = userService.createUser(userRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdUserDto);
+    }
+
+    // 유저 로그인
+    @PostMapping("/login")
+    public ResponseEntity<Void> loginUser(@RequestBody UserLoginRequestDto userLoginRequestDto, HttpServletRequest request) {
+        Long userId = userService.login(userLoginRequestDto);
+        HttpSession session = request.getSession();
+
+        session.setAttribute("LOGIN_USER_ID", userId);
+        return ResponseEntity.ok().build();
+    }
+
+    // 유저 로그아웃
+    @GetMapping("/logout")
+    public ResponseEntity<Void> logoutUser(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);    // 로그인 하지 않으면 null 반환 (false -> 세션 생성 막기)
+
+        if (session != null) {      // 로그인이 된 경우 (세션이 있으면)
+            session.invalidate();   // 해당 세션 삭제
+        }
+        return ResponseEntity.ok().build();
     }
 
     // 단일 유저 조회
