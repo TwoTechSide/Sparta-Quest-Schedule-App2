@@ -53,7 +53,7 @@ public class UserService {
         String loginPassword = userLoginRequestDto.password();
 
         Optional<User> loginUser = userRepository.findByEmailAndPassword(loginEmail, loginPassword);
-        return loginUser.map(User::getId).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+        return loginUser.map(User::getId).orElseThrow(() -> new CustomException(ErrorCode.USER_LOGIN_FAIL));
     }
 
     // findById로 찾은 entity 반환, 조회 실패시 예외 처리
