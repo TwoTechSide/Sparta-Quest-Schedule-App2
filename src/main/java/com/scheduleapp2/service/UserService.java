@@ -26,13 +26,13 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public UserResponseDto findUserById(Long userId) {
-        User foundUser = findUserByIdOrThrow(userId);
+        User foundUser = findUserByIdOrElseThrow(userId);
         return userMapper.toResponseDto(foundUser);
     }
 
     @Transactional
     public UserResponseDto updateUser(Long userId, UserRequestDto userRequestDto) {
-        User user = findUserByIdOrThrow(userId);
+        User user = findUserByIdOrElseThrow(userId);
 
         user.updateNameAndEmail(userRequestDto);
         userRepository.saveAndFlush(user);
@@ -44,7 +44,7 @@ public class UserService {
     public void deleteUserById(Long userId) { userRepository.deleteById(userId); }
 
     // findById로 찾은 entity 반환, 조회 실패시 예외 처리
-    public User findUserByIdOrThrow(Long userId) {
+    public User findUserByIdOrElseThrow(Long userId) {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
     }

@@ -46,7 +46,7 @@ public class ScheduleService  {
 
     @Transactional
     public ScheduleResponseDto updateSchedule(ScheduleUpdateRequestDto scheduleUpdateRequestDto, Long scheduleId) {
-        Schedule schedule = findScheduleByIdOrThrow(scheduleId);
+        Schedule schedule = findScheduleByIdOrElseThrow(scheduleId);
 
         schedule.updateTitleAndContent(scheduleUpdateRequestDto);
         scheduleRepository.saveAndFlush(schedule);
@@ -60,7 +60,7 @@ public class ScheduleService  {
     }
 
     // findById로 찾은 entity 반환, 조회 실패시 예외 처리
-    public Schedule findScheduleByIdOrThrow(Long scheduleId) {
+    public Schedule findScheduleByIdOrElseThrow(Long scheduleId) {
         return scheduleRepository.findById(scheduleId)
                 .orElseThrow(() -> new CustomException(ErrorCode.SCHEDULE_NOT_FOUND));
     }
