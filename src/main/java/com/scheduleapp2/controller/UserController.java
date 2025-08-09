@@ -1,11 +1,10 @@
 package com.scheduleapp2.controller;
 
-import com.scheduleapp2.dto.user.UserLoginRequestDto;
-import com.scheduleapp2.dto.user.UserRequestDto;
-import com.scheduleapp2.dto.user.UserResponseDto;
+import com.scheduleapp2.dto.user.*;
 import com.scheduleapp2.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -55,8 +54,8 @@ public class UserController {
 
     // 유저 정보 수정
     @PatchMapping("/{userId}")
-    public ResponseEntity<UserResponseDto> updateUser(@PathVariable Long userId, @RequestBody UserRequestDto userRequestDto) {
-        UserResponseDto updatedUserDto = userService.updateUser(userId, userRequestDto);
+    public ResponseEntity<UserResponseDto> updateUser(@PathVariable Long userId, @RequestBody @Valid UserUpdateRequestDto userUpdateRequestDto) {
+        UserResponseDto updatedUserDto = userService.updateUser(userId, userUpdateRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body(updatedUserDto);
     }
 

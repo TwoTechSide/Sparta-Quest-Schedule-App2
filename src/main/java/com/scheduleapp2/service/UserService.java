@@ -1,8 +1,6 @@
 package com.scheduleapp2.service;
 
-import com.scheduleapp2.dto.user.UserLoginRequestDto;
-import com.scheduleapp2.dto.user.UserRequestDto;
-import com.scheduleapp2.dto.user.UserResponseDto;
+import com.scheduleapp2.dto.user.*;
 import com.scheduleapp2.entity.User;
 import com.scheduleapp2.exception.CustomException;
 import com.scheduleapp2.exception.ErrorCode;
@@ -34,10 +32,10 @@ public class UserService {
     }
 
     @Transactional
-    public UserResponseDto updateUser(Long userId, UserRequestDto userRequestDto) {
+    public UserResponseDto updateUser(Long userId, UserUpdateRequestDto userUpdateRequestDto) {
         User user = findUserByIdOrElseThrow(userId);
 
-        user.updateNameAndEmail(userRequestDto);
+        user.updateNameAndEmail(userUpdateRequestDto);
         userRepository.saveAndFlush(user);
 
         return userMapper.toResponseDto(user);
