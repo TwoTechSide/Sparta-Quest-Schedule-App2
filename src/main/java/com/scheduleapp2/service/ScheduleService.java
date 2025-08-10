@@ -1,6 +1,6 @@
 package com.scheduleapp2.service;
 
-import com.scheduleapp2.dto.schedule.ScheduleRequestDto;
+import com.scheduleapp2.dto.schedule.ScheduleCreateRequestDto;
 import com.scheduleapp2.dto.schedule.ScheduleResponseDto;
 import com.scheduleapp2.dto.schedule.ScheduleUpdateRequestDto;
 import com.scheduleapp2.entity.Schedule;
@@ -27,11 +27,11 @@ public class ScheduleService  {
     private final ScheduleMapper scheduleMapper;
 
     @Transactional
-    public ScheduleResponseDto createSchedule(ScheduleRequestDto scheduleRequestDto, Long userId) {
+    public ScheduleResponseDto createSchedule(ScheduleCreateRequestDto scheduleCreateRequestDto, Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
-        Schedule scheduleWithUser = scheduleMapper.toEntity(scheduleRequestDto);
+        Schedule scheduleWithUser = scheduleMapper.toEntity(scheduleCreateRequestDto);
         scheduleWithUser.assignUser(user);
 
         Schedule savedSchedule = scheduleRepository.save(scheduleWithUser);
