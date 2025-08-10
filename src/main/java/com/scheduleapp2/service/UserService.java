@@ -7,6 +7,7 @@ import com.scheduleapp2.exception.ErrorCode;
 import com.scheduleapp2.mapper.UserMapper;
 import com.scheduleapp2.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,8 +22,13 @@ public class UserService {
 
     @Transactional
     public UserResponseDto createUser(UserSignupRequestDto userSignupRequestDto) {
-        User createdUser = userRepository.save(userMapper.toEntity(userSignupRequestDto));
-        return userMapper.toResponseDto(createdUser);
+        // User Entity의 email(unique = true) 필드가 중복되는 경우, DataIntegrityViolationException 예외 처리
+        try {
+            User createdUser = userRepository.save(userMapper.toEntity(userSignupRequestDto));
+            return userMapper.toResponseDto(createdUser);
+        } catch (DataIntegrityViolationException e) {
+            throw new CustomException(ErrorCode.USER_SIGNUP_FAIL);
+        }
     }
 
     @Transactional(readOnly = true)
