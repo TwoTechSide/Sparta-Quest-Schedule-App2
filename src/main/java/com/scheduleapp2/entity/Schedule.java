@@ -15,8 +15,11 @@ public class Schedule extends BaseEntity {
     @Column(name = "schedule_id")
     private Long id;
 
+    @Column(nullable = false)
     private String writer;
+    @Column(nullable = false)
     private String title;
+    @Column(nullable = false)
     private String content;
 
     @ManyToOne

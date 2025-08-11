@@ -1,14 +1,13 @@
 package com.scheduleapp2.service;
 
-import com.scheduleapp2.dto.user.UserLoginRequestDto;
-import com.scheduleapp2.dto.user.UserRequestDto;
-import com.scheduleapp2.dto.user.UserResponseDto;
+import com.scheduleapp2.dto.user.*;
 import com.scheduleapp2.entity.User;
 import com.scheduleapp2.exception.CustomException;
 import com.scheduleapp2.exception.ErrorCode;
 import com.scheduleapp2.mapper.UserMapper;
 import com.scheduleapp2.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,9 +21,14 @@ public class UserService {
     private final UserMapper userMapper;
 
     @Transactional
-    public UserResponseDto createUser(UserRequestDto userRequestDto) {
-        User createdUser = userRepository.save(userMapper.toEntity(userRequestDto));
-        return userMapper.toResponseDto(createdUser);
+    public UserResponseDto createUser(UserSignupRequestDto userSignupRequestDto) {
+        // User Entity의 email(unique = true) 필드가 중복되는 경우, DataIntegrityViolationException 예외 처리
+        try {
+            User createdUser = userRepository.save(userMapper.toEntity(userSignupRequestDto));
+            return userMapper.toResponseDto(createdUser);
+        } catch (DataIntegrityViolationException e) {
+            throw new CustomException(ErrorCode.USER_SIGNUP_FAIL);
+        }
     }
 
     @Transactional(readOnly = true)
@@ -34,10 +38,10 @@ public class UserService {
     }
 
     @Transactional
-    public UserResponseDto updateUser(Long userId, UserRequestDto userRequestDto) {
+    public UserResponseDto updateUser(Long userId, UserUpdateRequestDto userUpdateRequestDto) {
         User user = findUserByIdOrElseThrow(userId);
 
-        user.updateNameAndEmail(userRequestDto);
+        user.updateNameAndEmail(userUpdateRequestDto);
         userRepository.saveAndFlush(user);
 
         return userMapper.toResponseDto(user);
