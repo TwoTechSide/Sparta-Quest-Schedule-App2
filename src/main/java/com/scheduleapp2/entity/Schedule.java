@@ -8,17 +8,13 @@ import java.util.List;
 
 @Entity
 @Getter
-@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class Schedule extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "schedule_id")
     private Long id;
 
-    @Column(nullable = false)
-    private String writer;
     @Column(nullable = false)
     private String title;
     @Column(nullable = false)
@@ -30,6 +26,12 @@ public class Schedule extends BaseEntity {
 
     @OneToMany(mappedBy = "schedule")
     private List<Comment> comments;
+
+    @Builder
+    public Schedule(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
 
     public void assignUser(User user) {
         this.user = user;

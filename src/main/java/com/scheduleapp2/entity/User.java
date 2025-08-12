@@ -8,9 +8,7 @@ import java.util.List;
 
 @Entity
 @Getter
-@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,6 +27,13 @@ public class User extends BaseEntity {
 
     @OneToMany(mappedBy = "user")
     private List<Comment> comments;
+
+    @Builder
+    public User(String name, String email, String password) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+    }
 
     public void updateNameAndEmail(UserUpdateRequestDto userUpdateRequestDto) {
         this.name = userUpdateRequestDto.name();
