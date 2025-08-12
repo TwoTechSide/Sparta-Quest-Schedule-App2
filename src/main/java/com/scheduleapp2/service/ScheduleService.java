@@ -11,6 +11,9 @@ import com.scheduleapp2.mapper.ScheduleMapper;
 import com.scheduleapp2.repository.ScheduleRepository;
 import com.scheduleapp2.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -57,6 +60,14 @@ public class ScheduleService  {
     @Transactional
     public void deleteSchedule(Long scheduleId) {
         scheduleRepository.deleteById(scheduleId);
+    }
+
+    @Transactional(readOnly = true)
+    public List<ScheduleResponseDto> getSchedulePage(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Schedule> schedulePage = scheduleRepository.findAllByOrderByUpdatedAtDesc(pageable);
+
+        return schedulePage.stream().map(scheduleMapper::toResponseDto).collect(Collectors.toList());
     }
 
     // findById로 찾은 entity 반환, 조회 실패시 예외 처리
