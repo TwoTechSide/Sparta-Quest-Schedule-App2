@@ -35,6 +35,14 @@ public class ScheduleController {
         return ResponseEntity.status(HttpStatus.OK).body(allScheduleDto);
     }
 
+    // 일정 페이지 조회
+    @GetMapping("/page")
+    public ResponseEntity<List<ScheduleResponseDto>> getSchedulePage(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return ResponseEntity.status(HttpStatus.OK).body(scheduleService.getSchedulePage(page, size));
+    }
+
     // 일정 수정
     @PatchMapping("/{scheduleId}")
     public ResponseEntity<ScheduleResponseDto> updateSchedule(
