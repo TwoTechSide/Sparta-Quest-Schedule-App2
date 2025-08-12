@@ -13,6 +13,7 @@ public enum ErrorCode {
     USER_NOT_LOGIN("USR-002", "로그인이 필요합니다.", HttpStatus.UNAUTHORIZED),
     USER_LOGIN_FAIL("USR-003", "로그인에 실패하였습니다.", HttpStatus.UNAUTHORIZED),
     USER_SIGNUP_FAIL("USR-004", "회원가입에 실패하였습니다.", HttpStatus.CONFLICT),
+    USER_PASSWORD_INCORRECT("USR-005", "비밀번호가 일치하지 않습니다.", HttpStatus.UNAUTHORIZED),
 
     COMMENT_NOT_CREATED("COM-001", "댓글 생성에 실패하였습니다.", HttpStatus.CONFLICT);
 

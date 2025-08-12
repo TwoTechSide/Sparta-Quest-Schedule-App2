@@ -2,6 +2,7 @@ package com.scheduleapp2.controller;
 
 import com.scheduleapp2.dto.comment.CommentCreateRequestDto;
 import com.scheduleapp2.dto.comment.CommentResponseDto;
+import com.scheduleapp2.dto.comment.CommentUpdateRequestDto;
 import com.scheduleapp2.service.CommentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -9,8 +10,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RestController("/comments")
+import java.util.List;
+
+@RestController
 @RequiredArgsConstructor
+@RequestMapping("/comments")
 public class CommentController {
 
     private final CommentService commentService;
@@ -23,5 +27,32 @@ public class CommentController {
             @PathVariable Long userId) {
         CommentResponseDto createdCommentDto = commentService.createComment(commentCreateRequestDto, scheduleId, userId);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdCommentDto);
+    }
+
+    // 댓글 불러오기 (ScheduleId)
+    @GetMapping("/schedules/{scheduleId}")
+    public ResponseEntity<List<CommentResponseDto>> getAllCommentsFromSchedule(@PathVariable Long scheduleId) {
+        return ResponseEntity.status(HttpStatus.OK).body(commentService.getAllCommentsByScheduleId(scheduleId));
+    }
+
+    // 댓글 불러오기 (UserId)
+    @GetMapping("/users/{userId}")
+    public ResponseEntity<List<CommentResponseDto>> getAllCommentsFromUser(@PathVariable Long userId) {
+        return ResponseEntity.status(HttpStatus.OK).body(commentService.getAllCommentsByUserId(userId));
+    }
+
+    // 댓글 수정하기
+    @PatchMapping("/{commentId}")
+    public ResponseEntity<CommentResponseDto> updateComment(
+            @RequestBody CommentUpdateRequestDto commentUpdateRequestDto,
+            @PathVariable Long commentId) {
+        return ResponseEntity.status(HttpStatus.OK).body(commentService.updateComment(commentUpdateRequestDto, commentId));
+    }
+
+    // 댓글 삭제
+    @DeleteMapping("/{commentId}")
+    public ResponseEntity<Void> deleteComment(@PathVariable Long commentId) {
+        commentService.deleteComment(commentId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
