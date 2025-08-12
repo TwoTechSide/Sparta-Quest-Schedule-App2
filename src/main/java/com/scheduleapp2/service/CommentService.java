@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class CommentService {
 
     private final ScheduleRepository scheduleRepository;
@@ -55,13 +56,11 @@ public class CommentService {
         }
     }
 
-    @Transactional(readOnly = true)
     public List<CommentResponseDto> getAllCommentsByScheduleId(Long scheduleId) {
         List<Comment> comments = commentRepository.findAllByScheduleId(scheduleId);
         return comments.stream().map(commentMapper::toResponseDto).collect(Collectors.toList());
     }
 
-    @Transactional(readOnly = true)
     public List<CommentResponseDto> getAllCommentsByUserId(Long userId) {
         List<Comment> comments = commentRepository.findAllByUserId(userId);
         return comments.stream().map(commentMapper::toResponseDto).collect(Collectors.toList());

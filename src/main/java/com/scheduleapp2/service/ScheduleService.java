@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class ScheduleService  {
 
     private final ScheduleRepository scheduleRepository;
@@ -31,17 +32,17 @@ public class ScheduleService  {
 
     @Transactional
     public ScheduleResponseDto createSchedule(ScheduleCreateRequestDto scheduleCreateRequestDto, Long userId) {
+
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
-        Schedule scheduleWithUser = scheduleMapper.toEntity(scheduleCreateRequestDto);
-        scheduleWithUser.assignUser(user);
+        Schedule schedule = scheduleMapper.toEntity(scheduleCreateRequestDto);
+        schedule.assignUser(user);
 
-        Schedule savedSchedule = scheduleRepository.save(scheduleWithUser);
+        Schedule savedSchedule = scheduleRepository.save(schedule);
         return scheduleMapper.toResponseDto(savedSchedule);
     }
 
-    @Transactional(readOnly = true)
     public List<ScheduleResponseDto> findAllSchedules() {
         List<Schedule> foundSchedules = scheduleRepository.findAll();
         return foundSchedules.stream().map(scheduleMapper::toResponseDto).collect(Collectors.toList());
@@ -62,7 +63,6 @@ public class ScheduleService  {
         scheduleRepository.deleteById(scheduleId);
     }
 
-    @Transactional(readOnly = true)
     public List<ScheduleResponseDto> getSchedulePage(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<Schedule> schedulePage = scheduleRepository.findAllByOrderByUpdatedAtDesc(pageable);

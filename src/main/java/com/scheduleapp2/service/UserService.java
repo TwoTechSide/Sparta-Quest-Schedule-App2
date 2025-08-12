@@ -16,6 +16,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class UserService {
 
     private final UserRepository userRepository;
@@ -34,7 +35,6 @@ public class UserService {
         }
     }
 
-    @Transactional(readOnly = true)
     public UserResponseDto findUserById(Long userId) {
         User foundUser = findUserByIdOrElseThrow(userId);
         return userMapper.toResponseDto(foundUser);
@@ -54,7 +54,6 @@ public class UserService {
     public void deleteUserById(Long userId) { userRepository.deleteById(userId); }
 
     // (email, password)로 찾은 user id 반환, 실패시 USER_LOGIN_FAIL 예외 처리
-    @Transactional(readOnly = true)
     public Long login(UserLoginRequestDto userLoginRequestDto) {
         String loginEmail = userLoginRequestDto.email();
         String loginPassword = userLoginRequestDto.password();
