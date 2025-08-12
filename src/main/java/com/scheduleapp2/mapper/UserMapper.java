@@ -4,10 +4,12 @@ import com.scheduleapp2.dto.user.UserResponseDto;
 import com.scheduleapp2.dto.user.UserSignupRequestDto;
 import com.scheduleapp2.entity.User;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
 
-    User toEntity(UserSignupRequestDto userSignupRequestDto);
+    @Mapping(source = "encodedPassword", target = "password")
+    User toEntity(UserSignupRequestDto userSignupRequestDto, String encodedPassword);
     UserResponseDto toResponseDto(User user);
 }
