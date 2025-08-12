@@ -27,6 +27,9 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "user")
     private List<Schedule> schedules;
 
+    @OneToMany(mappedBy = "user")
+    private List<Comment> comments;
+
     public void updateNameAndEmail(UserUpdateRequestDto userUpdateRequestDto) {
         this.name = userUpdateRequestDto.name();
         this.email = userUpdateRequestDto.email();

@@ -4,6 +4,8 @@ import com.scheduleapp2.dto.schedule.ScheduleUpdateRequestDto;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Getter
 @Builder
@@ -25,6 +27,9 @@ public class Schedule extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @OneToMany(mappedBy = "schedule")
+    private List<Comment> comments;
 
     public void assignUser(User user) {
         this.user = user;
