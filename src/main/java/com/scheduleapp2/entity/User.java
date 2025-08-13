@@ -28,7 +28,6 @@ public class User extends BaseDateTimeEntity {
     @OneToMany(mappedBy = "user")
     private List<Comment> comments;
 
-    @Builder
     public User(String name, String email, String password) {
         this.name = name;
         this.email = email;

@@ -27,7 +27,6 @@ public class Schedule extends BaseDateTimeEntity {
     @OneToMany(mappedBy = "schedule")
     private List<Comment> comments;
 
-    @Builder
     public Schedule(String title, String content) {
         this.title = title;
         this.content = content;

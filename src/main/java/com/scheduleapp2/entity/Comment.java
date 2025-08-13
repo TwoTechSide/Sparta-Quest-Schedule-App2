@@ -2,7 +2,6 @@ package com.scheduleapp2.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -25,7 +24,6 @@ public class Comment extends BaseDateTimeEntity {
     @JoinColumn(name = "schedule_id")
     private Schedule schedule;
 
-    @Builder
     public Comment(String content) {
         this.content = content;
     }
