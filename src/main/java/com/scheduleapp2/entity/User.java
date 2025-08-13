@@ -4,8 +4,6 @@ import com.scheduleapp2.dto.user.UserUpdateRequestDto;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
-
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -21,12 +19,6 @@ public class User extends BaseDateTimeEntity {
     private String email;
     @Column(nullable = false)
     private String password;
-
-    @OneToMany(mappedBy = "user")
-    private List<Schedule> schedules;
-
-    @OneToMany(mappedBy = "user")
-    private List<Comment> comments;
 
     public User(String name, String email, String password) {
         this.name = name;

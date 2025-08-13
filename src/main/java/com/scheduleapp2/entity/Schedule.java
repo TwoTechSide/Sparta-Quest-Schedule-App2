@@ -4,8 +4,6 @@ import com.scheduleapp2.dto.schedule.ScheduleUpdateRequestDto;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
-
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -23,9 +21,6 @@ public class Schedule extends BaseDateTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
-
-    @OneToMany(mappedBy = "schedule")
-    private List<Comment> comments;
 
     public Schedule(String title, String content, User user) {
         this.title = title;
