@@ -1,6 +1,7 @@
 package com.scheduleapp2.service;
 
 import com.scheduleapp2.dto.schedule.ScheduleCreateRequestDto;
+import com.scheduleapp2.dto.schedule.ScheduleListResponseDto;
 import com.scheduleapp2.dto.schedule.ScheduleResponseDto;
 import com.scheduleapp2.dto.schedule.ScheduleUpdateRequestDto;
 import com.scheduleapp2.entity.Schedule;
@@ -43,9 +44,9 @@ public class ScheduleService  {
         return scheduleMapper.toResponseDto(savedSchedule);
     }
 
-    public List<ScheduleResponseDto> findAllSchedules() {
+    public ScheduleListResponseDto findAllSchedules() {
         List<Schedule> foundSchedules = scheduleRepository.findAll();
-        return foundSchedules.stream().map(scheduleMapper::toResponseDto).collect(Collectors.toList());
+        return new ScheduleListResponseDto(scheduleMapper.toListResponseDto(foundSchedules));
     }
 
     @Transactional

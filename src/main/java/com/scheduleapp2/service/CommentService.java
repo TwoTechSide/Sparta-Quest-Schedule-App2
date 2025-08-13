@@ -2,6 +2,7 @@ package com.scheduleapp2.service;
 
 import com.scheduleapp2.common.config.PasswordEncoder;
 import com.scheduleapp2.dto.comment.CommentCreateRequestDto;
+import com.scheduleapp2.dto.comment.CommentListResponseDto;
 import com.scheduleapp2.dto.comment.CommentResponseDto;
 import com.scheduleapp2.dto.comment.CommentUpdateRequestDto;
 import com.scheduleapp2.entity.Comment;
@@ -20,7 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -56,14 +56,14 @@ public class CommentService {
         }
     }
 
-    public List<CommentResponseDto> getAllCommentsByScheduleId(Long scheduleId) {
+    public CommentListResponseDto getAllCommentsByScheduleId(Long scheduleId) {
         List<Comment> comments = commentRepository.findAllByScheduleId(scheduleId);
-        return comments.stream().map(commentMapper::toResponseDto).collect(Collectors.toList());
+        return new CommentListResponseDto(commentMapper.toResponseDto(comments));
     }
 
-    public List<CommentResponseDto> getAllCommentsByUserId(Long userId) {
+    public CommentListResponseDto getAllCommentsByUserId(Long userId) {
         List<Comment> comments = commentRepository.findAllByUserId(userId);
-        return comments.stream().map(commentMapper::toResponseDto).collect(Collectors.toList());
+        return new CommentListResponseDto(commentMapper.toResponseDto(comments));
     }
 
     @Transactional

@@ -1,6 +1,7 @@
 package com.scheduleapp2.controller;
 
 import com.scheduleapp2.dto.schedule.ScheduleCreateRequestDto;
+import com.scheduleapp2.dto.schedule.ScheduleListResponseDto;
 import com.scheduleapp2.dto.schedule.ScheduleResponseDto;
 import com.scheduleapp2.dto.schedule.ScheduleUpdateRequestDto;
 import com.scheduleapp2.service.ScheduleService;
@@ -30,9 +31,9 @@ public class ScheduleController {
 
     // 일정 조회
     @GetMapping
-    public ResponseEntity<List<ScheduleResponseDto>> getAllSchedules() {
-        List<ScheduleResponseDto> allScheduleDto = scheduleService.findAllSchedules();
-        return ResponseEntity.status(HttpStatus.OK).body(allScheduleDto);
+    public ResponseEntity<ScheduleListResponseDto> getAllSchedules() {
+        ScheduleListResponseDto allScheduleList = scheduleService.findAllSchedules();
+        return ResponseEntity.status(HttpStatus.OK).body(allScheduleList);
     }
 
     // 일정 페이지 조회
