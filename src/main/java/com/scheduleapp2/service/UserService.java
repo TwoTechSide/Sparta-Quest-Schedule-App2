@@ -1,10 +1,10 @@
 package com.scheduleapp2.service;
 
-import com.scheduleapp2.config.PasswordEncoder;
+import com.scheduleapp2.common.config.PasswordEncoder;
 import com.scheduleapp2.dto.user.*;
 import com.scheduleapp2.entity.User;
-import com.scheduleapp2.exception.CustomException;
-import com.scheduleapp2.exception.ErrorCode;
+import com.scheduleapp2.common.exception.CustomException;
+import com.scheduleapp2.common.exception.ErrorCode;
 import com.scheduleapp2.mapper.UserMapper;
 import com.scheduleapp2.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.scheduleapp2.config;
+package com.scheduleapp2.common.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;

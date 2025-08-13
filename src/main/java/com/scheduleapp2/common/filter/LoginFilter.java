@@ -1,9 +1,9 @@
-package com.scheduleapp2.filter;
+package com.scheduleapp2.common.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.scheduleapp2.dto.ErrorResponse;
-import com.scheduleapp2.exception.ErrorCode;
+import com.scheduleapp2.common.exception.ErrorCode;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

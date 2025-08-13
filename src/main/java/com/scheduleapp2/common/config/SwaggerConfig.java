@@ -1,4 +1,4 @@
-package com.scheduleapp2.config;
+package com.scheduleapp2.common.config;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;

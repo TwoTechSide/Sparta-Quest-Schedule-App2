@@ -1,4 +1,4 @@
-package com.scheduleapp2.exception;
+package com.scheduleapp2.common.exception;
 
 import com.scheduleapp2.dto.ErrorResponse;
 import io.swagger.v3.oas.annotations.Hidden;

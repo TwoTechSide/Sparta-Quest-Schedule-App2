@@ -1,14 +1,14 @@
 package com.scheduleapp2.service;
 
-import com.scheduleapp2.config.PasswordEncoder;
+import com.scheduleapp2.common.config.PasswordEncoder;
 import com.scheduleapp2.dto.comment.CommentCreateRequestDto;
 import com.scheduleapp2.dto.comment.CommentResponseDto;
 import com.scheduleapp2.dto.comment.CommentUpdateRequestDto;
 import com.scheduleapp2.entity.Comment;
 import com.scheduleapp2.entity.Schedule;
 import com.scheduleapp2.entity.User;
-import com.scheduleapp2.exception.CustomException;
-import com.scheduleapp2.exception.ErrorCode;
+import com.scheduleapp2.common.exception.CustomException;
+import com.scheduleapp2.common.exception.ErrorCode;
 import com.scheduleapp2.mapper.CommentMapper;
 import com.scheduleapp2.repository.CommentRepository;
 import com.scheduleapp2.repository.ScheduleRepository;

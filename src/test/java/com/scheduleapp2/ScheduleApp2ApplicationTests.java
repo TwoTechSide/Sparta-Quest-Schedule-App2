@@ -29,21 +29,21 @@ class ScheduleApp2ApplicationTests {
     // @Transactional
     @Test
     void createUser() {
-        UserSignupRequestDto userSignupRequestDto = new UserSignupRequestDto("2TS", "2TS@gmail.com", "1aA!");
+        UserSignupRequestDto userSignupRequestDto = new UserSignupRequestDto("2TS", "2TS@naver.com", "1aA!");
         userService.createUser(userSignupRequestDto);
     }
 
     // @Transactional
     @Test
     void createSchedule() {
-        ScheduleCreateRequestDto scheduleCreateRequestDto = new ScheduleCreateRequestDto("작성자", "제목", "내용");
+        ScheduleCreateRequestDto scheduleCreateRequestDto = new ScheduleCreateRequestDto("제목", "내용");
         scheduleService.createSchedule(scheduleCreateRequestDto, 1L);
     }
 
     // @Transactional
     @Test
     void createComment() {
-        CommentCreateRequestDto commentCreateRequestDto = new CommentCreateRequestDto("댓글내용22");
+        CommentCreateRequestDto commentCreateRequestDto = new CommentCreateRequestDto("댓글내용1");
         commentService.createComment(commentCreateRequestDto, 1L, 1L);
     }
 }
