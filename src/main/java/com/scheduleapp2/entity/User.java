@@ -4,14 +4,10 @@ import com.scheduleapp2.dto.user.UserUpdateRequestDto;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
-
 @Entity
 @Getter
-@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
-public class User extends BaseEntity {
+public class User extends BaseDateTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
@@ -24,11 +20,11 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     private String password;
 
-    @OneToMany(mappedBy = "user")
-    private List<Schedule> schedules;
-
-    @OneToMany(mappedBy = "user")
-    private List<Comment> comments;
+    public User(String name, String email, String password) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+    }
 
     public void updateNameAndEmail(UserUpdateRequestDto userUpdateRequestDto) {
         this.name = userUpdateRequestDto.name();

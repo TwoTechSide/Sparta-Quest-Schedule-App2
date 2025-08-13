@@ -1,4 +1,4 @@
-package com.scheduleapp2.exception;
+package com.scheduleapp2.common.exception;
 
 import com.scheduleapp2.dto.ErrorResponse;
 import io.swagger.v3.oas.annotations.Hidden;
@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
 
     // Service 에서 발생한 예외 처리
-    @ExceptionHandler(CustomException.class)
-    public ResponseEntity<ErrorResponse> handleCustomException(CustomException e, HttpServletRequest request) {
+    @ExceptionHandler(BusinessException.class)
+    public ResponseEntity<ErrorResponse> handleCustomException(BusinessException e, HttpServletRequest request) {
 
         ErrorResponse error = ErrorResponse.of(e.getHttpStatus(), e.getCode(), e.getMessage(), request.getRequestURI());
         return new ResponseEntity<>(error, e.getHttpStatus());

@@ -10,6 +10,6 @@ import org.mapstruct.Mapping;
 public interface UserMapper {
 
     @Mapping(source = "encodedPassword", target = "password")
-    User toEntity(UserSignupRequestDto userSignupRequestDto, String encodedPassword);
+    User toEntityWithEncodedPassword(UserSignupRequestDto userSignupRequestDto, String encodedPassword);
     UserResponseDto toResponseDto(User user);
 }

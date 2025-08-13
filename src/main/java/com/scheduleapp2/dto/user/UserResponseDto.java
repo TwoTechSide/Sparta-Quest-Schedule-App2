@@ -1,3 +1,11 @@
 package com.scheduleapp2.dto.user;
 
-public record UserResponseDto(String name, String email) { }
+import java.time.LocalDateTime;
+
+public record UserResponseDto(
+        String name,
+        String email,
+        LocalDateTime createdAt,
+        LocalDateTime updatedAt) {
+
+}

@@ -1,6 +1,6 @@
-package com.scheduleapp2.config;
+package com.scheduleapp2.common.config;
 
-import com.scheduleapp2.filter.LoginFilter;
+import com.scheduleapp2.common.filter.LoginFilter;
 import jakarta.servlet.Filter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;

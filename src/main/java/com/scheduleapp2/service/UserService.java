@@ -1,10 +1,10 @@
 package com.scheduleapp2.service;
 
-import com.scheduleapp2.config.PasswordEncoder;
+import com.scheduleapp2.common.config.PasswordEncoder;
 import com.scheduleapp2.dto.user.*;
 import com.scheduleapp2.entity.User;
-import com.scheduleapp2.exception.CustomException;
-import com.scheduleapp2.exception.ErrorCode;
+import com.scheduleapp2.common.exception.BusinessException;
+import com.scheduleapp2.common.exception.ErrorCode;
 import com.scheduleapp2.mapper.UserMapper;
 import com.scheduleapp2.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +16,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class UserService {
 
     private final UserRepository userRepository;
@@ -27,14 +28,13 @@ public class UserService {
         // User Entity의 email(unique = true) 필드가 중복되는 경우, DataIntegrityViolationException 예외 처리
         try {
             String encodedPassword = pwEncoder.encode(userSignupRequestDto.password());
-            User createdUser = userRepository.save(userMapper.toEntity(userSignupRequestDto, encodedPassword));
+            User createdUser = userRepository.save(userMapper.toEntityWithEncodedPassword(userSignupRequestDto, encodedPassword));
             return userMapper.toResponseDto(createdUser);
         } catch (DataIntegrityViolationException e) {
-            throw new CustomException(ErrorCode.USER_SIGNUP_FAIL);
+            throw new BusinessException(ErrorCode.USER_SIGNUP_FAIL);
         }
     }
 
-    @Transactional(readOnly = true)
     public UserResponseDto findUserById(Long userId) {
         User foundUser = findUserByIdOrElseThrow(userId);
         return userMapper.toResponseDto(foundUser);
@@ -54,7 +54,6 @@ public class UserService {
     public void deleteUserById(Long userId) { userRepository.deleteById(userId); }
 
     // (email, password)로 찾은 user id 반환, 실패시 USER_LOGIN_FAIL 예외 처리
-    @Transactional(readOnly = true)
     public Long login(UserLoginRequestDto userLoginRequestDto) {
         String loginEmail = userLoginRequestDto.email();
         String loginPassword = userLoginRequestDto.password();
@@ -69,12 +68,12 @@ public class UserService {
             }
         }
 
-        throw new CustomException(ErrorCode.USER_LOGIN_FAIL);
+        throw new BusinessException(ErrorCode.USER_LOGIN_FAIL);
     }
 
     // findById로 찾은 entity 반환, 조회 실패시 예외 처리
     public User findUserByIdOrElseThrow(Long userId) {
         return userRepository.findById(userId)
-                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
     }
 }

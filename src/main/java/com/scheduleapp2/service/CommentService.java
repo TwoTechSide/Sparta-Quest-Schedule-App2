@@ -1,14 +1,15 @@
 package com.scheduleapp2.service;
 
-import com.scheduleapp2.config.PasswordEncoder;
+import com.scheduleapp2.common.config.PasswordEncoder;
 import com.scheduleapp2.dto.comment.CommentCreateRequestDto;
+import com.scheduleapp2.dto.comment.CommentListResponseDto;
 import com.scheduleapp2.dto.comment.CommentResponseDto;
 import com.scheduleapp2.dto.comment.CommentUpdateRequestDto;
 import com.scheduleapp2.entity.Comment;
 import com.scheduleapp2.entity.Schedule;
 import com.scheduleapp2.entity.User;
-import com.scheduleapp2.exception.CustomException;
-import com.scheduleapp2.exception.ErrorCode;
+import com.scheduleapp2.common.exception.BusinessException;
+import com.scheduleapp2.common.exception.ErrorCode;
 import com.scheduleapp2.mapper.CommentMapper;
 import com.scheduleapp2.repository.CommentRepository;
 import com.scheduleapp2.repository.ScheduleRepository;
@@ -20,10 +21,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class CommentService {
 
     private final ScheduleRepository scheduleRepository;
@@ -41,9 +42,9 @@ public class CommentService {
         Optional<User> user = userRepository.findById(userId);
 
         if (schedule.isEmpty()) {
-            throw new CustomException(ErrorCode.SCHEDULE_NOT_FOUND);
+            throw new BusinessException(ErrorCode.SCHEDULE_NOT_FOUND);
         } else if (user.isEmpty()) {
-            throw new CustomException(ErrorCode.USER_NOT_FOUND);
+            throw new BusinessException(ErrorCode.USER_NOT_FOUND);
         }
 
         Comment comment = commentMapper.toEntity(commentCreateRequestDto);
@@ -51,20 +52,18 @@ public class CommentService {
         try {
             return commentMapper.toResponseDto(commentRepository.save(comment));
         } catch (DataIntegrityViolationException e) {
-            throw new CustomException(ErrorCode.COMMENT_NOT_CREATED);
+            throw new BusinessException(ErrorCode.COMMENT_NOT_CREATED);
         }
     }
 
-    @Transactional(readOnly = true)
-    public List<CommentResponseDto> getAllCommentsByScheduleId(Long scheduleId) {
+    public CommentListResponseDto getAllCommentsByScheduleId(Long scheduleId) {
         List<Comment> comments = commentRepository.findAllByScheduleId(scheduleId);
-        return comments.stream().map(commentMapper::toResponseDto).collect(Collectors.toList());
+        return new CommentListResponseDto(commentMapper.toResponseDto(comments));
     }
 
-    @Transactional(readOnly = true)
-    public List<CommentResponseDto> getAllCommentsByUserId(Long userId) {
+    public CommentListResponseDto getAllCommentsByUserId(Long userId) {
         List<Comment> comments = commentRepository.findAllByUserId(userId);
-        return comments.stream().map(commentMapper::toResponseDto).collect(Collectors.toList());
+        return new CommentListResponseDto(commentMapper.toResponseDto(comments));
     }
 
     @Transactional
@@ -73,14 +72,14 @@ public class CommentService {
         Optional<Comment> optionalComment = commentRepository.findById(commentId);
 
         if (optionalComment.isEmpty())
-            throw new CustomException(ErrorCode.SCHEDULE_NOT_FOUND);
+            throw new BusinessException(ErrorCode.SCHEDULE_NOT_FOUND);
 
         Comment comment = optionalComment.get();
         if (pwEncoder.matches(commentUpdateRequestDto.userPassword(), comment.getUser().getPassword())) {
             comment.updateContent(commentUpdateRequestDto.content());
             return commentMapper.toResponseDto(commentRepository.saveAndFlush(comment));
         } else {
-            throw new CustomException(ErrorCode.USER_PASSWORD_INCORRECT);
+            throw new BusinessException(ErrorCode.USER_PASSWORD_INCORRECT);
         }
     }
 

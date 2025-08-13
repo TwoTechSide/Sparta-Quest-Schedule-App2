@@ -1,6 +1,7 @@
 package com.scheduleapp2.controller;
 
 import com.scheduleapp2.dto.comment.CommentCreateRequestDto;
+import com.scheduleapp2.dto.comment.CommentListResponseDto;
 import com.scheduleapp2.dto.comment.CommentResponseDto;
 import com.scheduleapp2.dto.comment.CommentUpdateRequestDto;
 import com.scheduleapp2.service.CommentService;
@@ -9,8 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -31,13 +30,13 @@ public class CommentController {
 
     // 댓글 불러오기 (ScheduleId)
     @GetMapping("/schedules/{scheduleId}")
-    public ResponseEntity<List<CommentResponseDto>> getAllCommentsFromSchedule(@PathVariable Long scheduleId) {
+    public ResponseEntity<CommentListResponseDto> getAllCommentsFromSchedule(@PathVariable Long scheduleId) {
         return ResponseEntity.status(HttpStatus.OK).body(commentService.getAllCommentsByScheduleId(scheduleId));
     }
 
     // 댓글 불러오기 (UserId)
     @GetMapping("/users/{userId}")
-    public ResponseEntity<List<CommentResponseDto>> getAllCommentsFromUser(@PathVariable Long userId) {
+    public ResponseEntity<CommentListResponseDto> getAllCommentsFromUser(@PathVariable Long userId) {
         return ResponseEntity.status(HttpStatus.OK).body(commentService.getAllCommentsByUserId(userId));
     }
 

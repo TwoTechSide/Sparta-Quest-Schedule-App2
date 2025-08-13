@@ -1,6 +1,7 @@
 package com.scheduleapp2.controller;
 
 import com.scheduleapp2.dto.schedule.ScheduleCreateRequestDto;
+import com.scheduleapp2.dto.schedule.ScheduleListResponseDto;
 import com.scheduleapp2.dto.schedule.ScheduleResponseDto;
 import com.scheduleapp2.dto.schedule.ScheduleUpdateRequestDto;
 import com.scheduleapp2.service.ScheduleService;
@@ -9,8 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,14 +29,14 @@ public class ScheduleController {
 
     // 일정 조회
     @GetMapping
-    public ResponseEntity<List<ScheduleResponseDto>> getAllSchedules() {
-        List<ScheduleResponseDto> allScheduleDto = scheduleService.findAllSchedules();
-        return ResponseEntity.status(HttpStatus.OK).body(allScheduleDto);
+    public ResponseEntity<ScheduleListResponseDto> getAllSchedules() {
+        ScheduleListResponseDto allScheduleList = scheduleService.findAllSchedules();
+        return ResponseEntity.status(HttpStatus.OK).body(allScheduleList);
     }
 
     // 일정 페이지 조회
     @GetMapping("/page")
-    public ResponseEntity<List<ScheduleResponseDto>> getSchedulePage(
+    public ResponseEntity<ScheduleListResponseDto> getSchedulePage(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         return ResponseEntity.status(HttpStatus.OK).body(scheduleService.getSchedulePage(page, size));
