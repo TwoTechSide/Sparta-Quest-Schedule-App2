@@ -36,19 +36,16 @@ public class CommentService {
     @Transactional
     public CommentResponseDto createComment(CommentCreateRequestDto commentCreateRequestDto,
                                             Long scheduleId,
-                                            Long userId) {
+                                            User user) {
 
         Optional<Schedule> schedule = scheduleRepository.findById(scheduleId);
-        Optional<User> user = userRepository.findById(userId);
 
         if (schedule.isEmpty()) {
             throw new BusinessException(ErrorCode.SCHEDULE_NOT_FOUND);
-        } else if (user.isEmpty()) {
-            throw new BusinessException(ErrorCode.USER_NOT_FOUND);
         }
 
         Comment comment = commentMapper.toEntity(commentCreateRequestDto);
-        comment.assignUserAndSchedule(user.get(), schedule.get());
+        comment.assignUserAndSchedule(user, schedule.get());
         try {
             return commentMapper.toResponseDto(commentRepository.save(comment));
         } catch (DataIntegrityViolationException e) {
