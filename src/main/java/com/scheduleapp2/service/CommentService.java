@@ -8,7 +8,7 @@ import com.scheduleapp2.dto.comment.CommentUpdateRequestDto;
 import com.scheduleapp2.entity.Comment;
 import com.scheduleapp2.entity.Schedule;
 import com.scheduleapp2.entity.User;
-import com.scheduleapp2.common.exception.CustomException;
+import com.scheduleapp2.common.exception.BusinessException;
 import com.scheduleapp2.common.exception.ErrorCode;
 import com.scheduleapp2.mapper.CommentMapper;
 import com.scheduleapp2.repository.CommentRepository;
@@ -42,9 +42,9 @@ public class CommentService {
         Optional<User> user = userRepository.findById(userId);
 
         if (schedule.isEmpty()) {
-            throw new CustomException(ErrorCode.SCHEDULE_NOT_FOUND);
+            throw new BusinessException(ErrorCode.SCHEDULE_NOT_FOUND);
         } else if (user.isEmpty()) {
-            throw new CustomException(ErrorCode.USER_NOT_FOUND);
+            throw new BusinessException(ErrorCode.USER_NOT_FOUND);
         }
 
         Comment comment = commentMapper.toEntity(commentCreateRequestDto);
@@ -52,7 +52,7 @@ public class CommentService {
         try {
             return commentMapper.toResponseDto(commentRepository.save(comment));
         } catch (DataIntegrityViolationException e) {
-            throw new CustomException(ErrorCode.COMMENT_NOT_CREATED);
+            throw new BusinessException(ErrorCode.COMMENT_NOT_CREATED);
         }
     }
 
@@ -72,14 +72,14 @@ public class CommentService {
         Optional<Comment> optionalComment = commentRepository.findById(commentId);
 
         if (optionalComment.isEmpty())
-            throw new CustomException(ErrorCode.SCHEDULE_NOT_FOUND);
+            throw new BusinessException(ErrorCode.SCHEDULE_NOT_FOUND);
 
         Comment comment = optionalComment.get();
         if (pwEncoder.matches(commentUpdateRequestDto.userPassword(), comment.getUser().getPassword())) {
             comment.updateContent(commentUpdateRequestDto.content());
             return commentMapper.toResponseDto(commentRepository.saveAndFlush(comment));
         } else {
-            throw new CustomException(ErrorCode.USER_PASSWORD_INCORRECT);
+            throw new BusinessException(ErrorCode.USER_PASSWORD_INCORRECT);
         }
     }
 

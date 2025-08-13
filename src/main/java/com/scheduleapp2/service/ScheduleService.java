@@ -6,7 +6,7 @@ import com.scheduleapp2.dto.schedule.ScheduleResponseDto;
 import com.scheduleapp2.dto.schedule.ScheduleUpdateRequestDto;
 import com.scheduleapp2.entity.Schedule;
 import com.scheduleapp2.entity.User;
-import com.scheduleapp2.common.exception.CustomException;
+import com.scheduleapp2.common.exception.BusinessException;
 import com.scheduleapp2.common.exception.ErrorCode;
 import com.scheduleapp2.mapper.ScheduleMapper;
 import com.scheduleapp2.repository.ScheduleRepository;
@@ -34,7 +34,7 @@ public class ScheduleService  {
     public ScheduleResponseDto createSchedule(ScheduleCreateRequestDto scheduleCreateRequestDto, Long userId) {
 
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
 
         Schedule schedule = scheduleMapper.toEntityWithUser(scheduleCreateRequestDto, user);
 
@@ -72,6 +72,6 @@ public class ScheduleService  {
     // findById로 찾은 entity 반환, 조회 실패시 예외 처리
     public Schedule findScheduleByIdOrElseThrow(Long scheduleId) {
         return scheduleRepository.findById(scheduleId)
-                .orElseThrow(() -> new CustomException(ErrorCode.SCHEDULE_NOT_FOUND));
+                .orElseThrow(() -> new BusinessException(ErrorCode.SCHEDULE_NOT_FOUND));
     }
 }

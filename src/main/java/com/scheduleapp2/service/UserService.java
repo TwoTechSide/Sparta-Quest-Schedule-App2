@@ -3,7 +3,7 @@ package com.scheduleapp2.service;
 import com.scheduleapp2.common.config.PasswordEncoder;
 import com.scheduleapp2.dto.user.*;
 import com.scheduleapp2.entity.User;
-import com.scheduleapp2.common.exception.CustomException;
+import com.scheduleapp2.common.exception.BusinessException;
 import com.scheduleapp2.common.exception.ErrorCode;
 import com.scheduleapp2.mapper.UserMapper;
 import com.scheduleapp2.repository.UserRepository;
@@ -31,7 +31,7 @@ public class UserService {
             User createdUser = userRepository.save(userMapper.toEntityWithEncodedPassword(userSignupRequestDto, encodedPassword));
             return userMapper.toResponseDto(createdUser);
         } catch (DataIntegrityViolationException e) {
-            throw new CustomException(ErrorCode.USER_SIGNUP_FAIL);
+            throw new BusinessException(ErrorCode.USER_SIGNUP_FAIL);
         }
     }
 
@@ -68,12 +68,12 @@ public class UserService {
             }
         }
 
-        throw new CustomException(ErrorCode.USER_LOGIN_FAIL);
+        throw new BusinessException(ErrorCode.USER_LOGIN_FAIL);
     }
 
     // findById로 찾은 entity 반환, 조회 실패시 예외 처리
     public User findUserByIdOrElseThrow(Long userId) {
         return userRepository.findById(userId)
-                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
     }
 }
