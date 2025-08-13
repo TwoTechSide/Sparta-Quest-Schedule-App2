@@ -6,6 +6,7 @@ import com.scheduleapp2.entity.Schedule;
 import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Named;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -19,4 +20,7 @@ public interface ScheduleMapper {
 
     @IterableMapping(qualifiedByName = "toResponseDto(Schedule)")
     List<ScheduleResponseDto> toListResponseDto(List<Schedule> schedules);
+
+    @IterableMapping(qualifiedByName = "toResponseDto(Schedule)")
+    List<ScheduleResponseDto> toListResponseDto(Page<Schedule> schedules);
 }

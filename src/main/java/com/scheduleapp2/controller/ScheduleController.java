@@ -38,7 +38,7 @@ public class ScheduleController {
 
     // 일정 페이지 조회
     @GetMapping("/page")
-    public ResponseEntity<List<ScheduleResponseDto>> getSchedulePage(
+    public ResponseEntity<ScheduleListResponseDto> getSchedulePage(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         return ResponseEntity.status(HttpStatus.OK).body(scheduleService.getSchedulePage(page, size));

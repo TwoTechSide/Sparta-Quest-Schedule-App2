@@ -64,11 +64,11 @@ public class ScheduleService  {
         scheduleRepository.deleteById(scheduleId);
     }
 
-    public List<ScheduleResponseDto> getSchedulePage(int page, int size) {
+    public ScheduleListResponseDto getSchedulePage(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<Schedule> schedulePage = scheduleRepository.findAllByOrderByUpdatedAtDesc(pageable);
 
-        return schedulePage.stream().map(scheduleMapper::toResponseDto).collect(Collectors.toList());
+        return new ScheduleListResponseDto(scheduleMapper.toListResponseDto(schedulePage));
     }
 
     // findById로 찾은 entity 반환, 조회 실패시 예외 처리
