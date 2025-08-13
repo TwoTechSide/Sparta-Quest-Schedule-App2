@@ -13,7 +13,6 @@ import com.scheduleapp2.common.exception.ErrorCode;
 import com.scheduleapp2.mapper.CommentMapper;
 import com.scheduleapp2.repository.CommentRepository;
 import com.scheduleapp2.repository.ScheduleRepository;
-import com.scheduleapp2.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -28,7 +27,6 @@ import java.util.Optional;
 public class CommentService {
 
     private final ScheduleRepository scheduleRepository;
-    private final UserRepository userRepository;
     private final CommentRepository commentRepository;
     private final CommentMapper commentMapper;
     private final PasswordEncoder pwEncoder;

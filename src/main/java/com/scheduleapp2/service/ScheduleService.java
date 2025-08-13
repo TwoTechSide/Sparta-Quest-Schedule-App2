@@ -10,7 +10,6 @@ import com.scheduleapp2.common.exception.BusinessException;
 import com.scheduleapp2.common.exception.ErrorCode;
 import com.scheduleapp2.mapper.ScheduleMapper;
 import com.scheduleapp2.repository.ScheduleRepository;
-import com.scheduleapp2.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
