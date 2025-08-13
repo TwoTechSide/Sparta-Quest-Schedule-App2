@@ -19,7 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -37,8 +36,7 @@ public class ScheduleService  {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
-        Schedule schedule = scheduleMapper.toEntity(scheduleCreateRequestDto);
-        schedule.assignUser(user);
+        Schedule schedule = scheduleMapper.toEntityWithUser(scheduleCreateRequestDto, user);
 
         Schedule savedSchedule = scheduleRepository.save(schedule);
         return scheduleMapper.toResponseDto(savedSchedule);

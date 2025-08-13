@@ -27,12 +27,9 @@ public class Schedule extends BaseDateTimeEntity {
     @OneToMany(mappedBy = "schedule")
     private List<Comment> comments;
 
-    public Schedule(String title, String content) {
+    public Schedule(String title, String content, User user) {
         this.title = title;
         this.content = content;
-    }
-
-    public void assignUser(User user) {
         this.user = user;
     }
 
