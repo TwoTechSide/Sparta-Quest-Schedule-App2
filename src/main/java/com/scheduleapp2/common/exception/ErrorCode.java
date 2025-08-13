@@ -15,7 +15,9 @@ public enum ErrorCode {
     USER_SIGNUP_FAIL("USR-004", "회원가입에 실패하였습니다.", HttpStatus.CONFLICT),
     USER_PASSWORD_INCORRECT("USR-005", "비밀번호가 일치하지 않습니다.", HttpStatus.UNAUTHORIZED),
 
-    COMMENT_NOT_CREATED("COM-001", "댓글 생성에 실패하였습니다.", HttpStatus.CONFLICT);
+    COMMENT_NOT_CREATED("COM-001", "댓글 생성에 실패하였습니다.", HttpStatus.CONFLICT),
+
+    INTERVAL_SERVER_ERROR("SVE-001", "잘못된 접근입니다.", HttpStatus.INTERNAL_SERVER_ERROR),;
 
     private final String code;
     private final String message;

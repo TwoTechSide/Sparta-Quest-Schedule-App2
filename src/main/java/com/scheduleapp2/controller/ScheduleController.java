@@ -1,9 +1,11 @@
 package com.scheduleapp2.controller;
 
+import com.scheduleapp2.common.annotation.LoginUserResolver;
 import com.scheduleapp2.dto.schedule.ScheduleCreateRequestDto;
 import com.scheduleapp2.dto.schedule.ScheduleListResponseDto;
 import com.scheduleapp2.dto.schedule.ScheduleResponseDto;
 import com.scheduleapp2.dto.schedule.ScheduleUpdateRequestDto;
+import com.scheduleapp2.entity.User;
 import com.scheduleapp2.service.ScheduleService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,11 +21,12 @@ public class ScheduleController {
     private final ScheduleService scheduleService;
 
     // 일정 생성
-    @PostMapping("/users/{userId}")
+    @PostMapping
     public ResponseEntity<ScheduleResponseDto> createSchedule(
             @RequestBody @Valid ScheduleCreateRequestDto scheduleCreateRequestDto,
-            @PathVariable Long userId) {
-        ScheduleResponseDto createdScheduleDto = scheduleService.createSchedule(scheduleCreateRequestDto, userId);
+            @LoginUserResolver User user) {
+
+        ScheduleResponseDto createdScheduleDto = scheduleService.createSchedule(scheduleCreateRequestDto, user);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdScheduleDto);
     }
 

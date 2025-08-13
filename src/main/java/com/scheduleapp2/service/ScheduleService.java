@@ -10,7 +10,6 @@ import com.scheduleapp2.common.exception.BusinessException;
 import com.scheduleapp2.common.exception.ErrorCode;
 import com.scheduleapp2.mapper.ScheduleMapper;
 import com.scheduleapp2.repository.ScheduleRepository;
-import com.scheduleapp2.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,15 +25,10 @@ import java.util.List;
 public class ScheduleService  {
 
     private final ScheduleRepository scheduleRepository;
-    private final UserRepository userRepository;
-
     private final ScheduleMapper scheduleMapper;
 
     @Transactional
-    public ScheduleResponseDto createSchedule(ScheduleCreateRequestDto scheduleCreateRequestDto, Long userId) {
-
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
+    public ScheduleResponseDto createSchedule(ScheduleCreateRequestDto scheduleCreateRequestDto, User user) {
 
         Schedule schedule = scheduleMapper.toEntityWithUser(scheduleCreateRequestDto, user);
 
