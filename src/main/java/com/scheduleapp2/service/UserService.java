@@ -28,7 +28,7 @@ public class UserService {
         // User Entity의 email(unique = true) 필드가 중복되는 경우, DataIntegrityViolationException 예외 처리
         try {
             String encodedPassword = pwEncoder.encode(userSignupRequestDto.password());
-            User createdUser = userRepository.save(userMapper.toEntity(userSignupRequestDto, encodedPassword));
+            User createdUser = userRepository.save(userMapper.toEntityWithEncodedPassword(userSignupRequestDto, encodedPassword));
             return userMapper.toResponseDto(createdUser);
         } catch (DataIntegrityViolationException e) {
             throw new CustomException(ErrorCode.USER_SIGNUP_FAIL);
