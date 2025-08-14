@@ -29,7 +29,7 @@ public class LoginFilter implements Filter {
         // 2. session이 없거나, 유저가 로그인한 경우가 아니면(LOGIN_USER == null)
         if (!isWhiteList(requestURI)) {
             HttpSession session = request.getSession(false);
-            if (session == null || session.getAttribute("LOGIN_USER") == null) {
+            if (session == null || session.getAttribute("LOGIN_USER_ID") == null) {
 
                 // jackson 라이브러리가 Java 8의 LocalDateTime을 지원하지 않기 때문에 모듈 추가
                 final ObjectMapper objectMapper = new ObjectMapper();
