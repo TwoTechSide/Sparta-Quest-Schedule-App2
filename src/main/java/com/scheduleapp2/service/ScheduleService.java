@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -57,8 +58,8 @@ public class ScheduleService  {
     }
 
     public ScheduleListResponseDto getSchedulePage(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        Page<Schedule> schedulePage = scheduleRepository.findAllByOrderByUpdatedAtDesc(pageable);
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "updatedAt"));
+        Page<Schedule> schedulePage = scheduleRepository.findAll(pageable);
 
         return new ScheduleListResponseDto(scheduleMapper.toListResponseDto(schedulePage));
     }
