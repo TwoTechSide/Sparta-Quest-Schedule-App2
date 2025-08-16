@@ -167,7 +167,7 @@ com.scheduleapp2/
 |--------|-----------------|-------------|---------------------------|
 | POST   | /users/signup   | 유저 생성(회원가입) | { name, email, password } |
 | POST   | /users/login    | 유저 로그인      | { email, password }       |
-| GET    | /users/logout   | 유저 로그인      | { email, password }       |
+| GET    | /users/logout   | 유저 로그아웃     | { email, password }       |
 | GET    | /users/{userId} | 유저 조회       |                           |
 | PATCH  | /users/{userId} | 유저 수정       | { name, email }           |
 | DELETE | /users/{userId} | 유저 삭제       |                           |
